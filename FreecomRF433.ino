@@ -43,6 +43,7 @@ void setup() {
   // Display welcome message
   lcd.clear();
   lcd.print("Welcome");
+  Serial.println("Ready");
 
 }
 
@@ -64,7 +65,7 @@ void loop() {
     }
     if (millis() - tilt_time > 500) {
         tilt_time = millis();
-        if (tilt_hits >= 2) {
+        if (tilt_hits >= 5) {
           Serial.println("Tilt: hit");
           lcd.clear();
         }
@@ -109,7 +110,7 @@ void loop() {
         // Log
         Serial.print("Rf433Mhz: sent ");
         Serial.println(data);
-        // Rf433 se
+        // Rf433 send
         rf433write.send(data, 32);
         rf433write.send(data, 32);
         // LED off
