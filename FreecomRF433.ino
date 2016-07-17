@@ -1,16 +1,24 @@
+//============================================================================
+// Name        : FreecomRF43.ino
+// Author      : R. BELLO <https://github.com/rbello>
+// Version     : 1.0
+// Copyright   : Creative Commons (by-nd)
+// Description : A small physical tool that displays the radio messages sent by home automation components using RF 433Mhz.
+//============================================================================
+
 #include <LiquidCrystal.h>
 #include <RCSwitch.h>
 
-#define INT_433_SENSOR 0 // Interruption pin for RF 433 sensor (#2)
-#define PIN_433_EMITTER 3 // Pin for RF 433 emitter
-#define PIN_LCD_RS 4 // Pin for LCD display
-#define PIN_LCD_E  5 // Pin for LCD display
-#define PIN_LCD_D4 6 // Pin for LCD display
-#define PIN_LCD_D5 7 // Pin for LCD display
-#define PIN_LCD_D6 8 // Pin for LCD display
-#define PIN_LCD_D7 9 // Pin for LCD display
-#define PIN_TILT 10 // Pin for tilt switch
-#define PIN_LED 11  // Pin for external LED
+#define INT_433_SENSOR  0     // Interruption pin for RF 433 sensor (#2)
+#define PIN_433_EMITTER 3     // Pin for RF 433 emitter
+#define PIN_LCD_RS 4          // Pin for LCD display
+#define PIN_LCD_E  5          // Pin for LCD display
+#define PIN_LCD_D4 6          // Pin for LCD display
+#define PIN_LCD_D5 7          // Pin for LCD display
+#define PIN_LCD_D6 8          // Pin for LCD display
+#define PIN_LCD_D7 9          // Pin for LCD display
+#define PIN_TILT 10           // Pin for tilt switch
+#define PIN_LED  11           // Pin for external LED
 
 // LCD display
 LiquidCrystal lcd(PIN_LCD_RS, PIN_LCD_E, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
@@ -42,7 +50,19 @@ void setup() {
 
   // Display welcome message
   lcd.clear();
-  lcd.print("Welcome");
+  lcd.setCursor(0, 0);
+  lcd.print("     Welcome");
+  digitalWrite(PIN_LED, HIGH);
+  delay(100);
+  digitalWrite(PIN_LED, LOW);
+  delay(100);
+  digitalWrite(PIN_LED, HIGH);
+  delay(100);
+  digitalWrite(PIN_LED, LOW);
+  delay(100);
+  digitalWrite(PIN_LED, HIGH);
+  delay(100);
+  digitalWrite(PIN_LED, LOW);
   Serial.println("Ready");
 
 }
@@ -68,6 +88,8 @@ void loop() {
         if (tilt_hits >= 5) {
           Serial.println("Tilt: hit");
           lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("     Welcome");
         }
         tilt_hits = 0;
     }
@@ -113,6 +135,14 @@ void loop() {
         // Rf433 send
         rf433write.send(data, 32);
         rf433write.send(data, 32);
+        // LCD display
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Sent");
+        lcd.setCursor(0, 1);
+        char buf[50];
+        sprintf(buf, "%lu", data);
+        lcd.print(buf);
         // LED off
         digitalWrite(PIN_LED, LOW);
       }

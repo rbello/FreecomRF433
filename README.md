@@ -1,5 +1,7 @@
 # Arduino NANO + 433Mhz WL RF Emitter/Receiver
 
+A small physical tool that displays the radio messages sent by home automation components using RF 433Mhz.
+
 ### Electronic diagram:
 
 Using a 433Mhz WL RF Arduino/ARM/MCU ASK (B00G23NW6S) module.
@@ -8,8 +10,8 @@ Using a 433Mhz WL RF Arduino/ARM/MCU ASK (B00G23NW6S) module.
 
 ### Hardware conception
 
-![Step1](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Step1.JPG)
-![Step1](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Step2.JPG)
-![Step1](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Step3.JPG)
-![Step1](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Step4.JPG)
-![Step1](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Step5.JPG)
+![Casing1](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D1.png)
+![Casing2](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D2.png)
+![Casing3](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D3.png)
+![Casing4](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D4.png)
+![Casing5](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D5.png)
