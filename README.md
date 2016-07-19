@@ -12,6 +12,10 @@ The components are then welded onto an electronic circuit:
 
 ![PCBWeldingAndWiring](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/PcbWeldingWiring_old.png)
 
+Finally, all the components are assembled:
+
+![InternalElectronicPhoto](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Photos/image1.JPG)
+
 ### Case conception
 
 ![CasingTopView](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D_top.png)
