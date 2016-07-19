@@ -10,15 +10,15 @@
 #include <RCSwitch.h>
 
 #define INT_433_SENSOR  0     // Interruption pin for RF 433 sensor (#2)
-#define PIN_433_EMITTER 3     // Pin for RF 433 emitter
-#define PIN_LCD_RS 4          // Pin for LCD display
-#define PIN_LCD_E  5          // Pin for LCD display
-#define PIN_LCD_D4 6          // Pin for LCD display
+#define PIN_433_EMITTER 11    // Pin for RF 433 emitter
+#define PIN_LCD_RS 10         // Pin for LCD display
+#define PIN_LCD_E  9          // Pin for LCD display
+#define PIN_LCD_D4 8          // Pin for LCD display
 #define PIN_LCD_D5 7          // Pin for LCD display
-#define PIN_LCD_D6 8          // Pin for LCD display
-#define PIN_LCD_D7 9          // Pin for LCD display
-#define PIN_TILT 10           // Pin for tilt switch
-#define PIN_LED  11           // Pin for external LED
+#define PIN_LCD_D6 6          // Pin for LCD display
+#define PIN_LCD_D7 5          // Pin for LCD display
+#define PIN_TILT 4           // Pin for tilt switch
+#define PIN_LED  3            // Pin for external LED
 
 // LCD display
 LiquidCrystal lcd(PIN_LCD_RS, PIN_LCD_E, PIN_LCD_D4, PIN_LCD_D5, PIN_LCD_D6, PIN_LCD_D7);
@@ -112,7 +112,9 @@ void loop() {
         Serial.println(buf);
         // LCD display
         lcd.clear();
-        lcd.print("Received");
+        char buf2[50];
+        sprintf(buf2, "Rcvd: P=%d L=%d", rf433read.getReceivedProtocol(), rf433read.getReceivedBitlength());
+        lcd.print(buf2);
         lcd.setCursor(0, 1);
         lcd.print(buf);
         // LED off
@@ -132,17 +134,17 @@ void loop() {
         // Log
         Serial.print("Rf433Mhz: sent ");
         Serial.println(data);
-        // Rf433 send
-        rf433write.send(data, 32);
-        rf433write.send(data, 32);
         // LCD display
         lcd.clear();
         lcd.setCursor(0, 0);
-        lcd.print("Sent");
+        lcd.print("Sending...");
         lcd.setCursor(0, 1);
         char buf[50];
         sprintf(buf, "%lu", data);
         lcd.print(buf);
+        // Rf433 send
+        rf433write.send(data, 32);
+        rf433write.send(data, 32);
         // LED off
         digitalWrite(PIN_LED, LOW);
       }
