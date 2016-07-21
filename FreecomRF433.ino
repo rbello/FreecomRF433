@@ -51,7 +51,7 @@ void setup() {
   // Display welcome message
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("     Welcome");
+  lcd.print("  Listening...");
   digitalWrite(PIN_LED, HIGH);
   delay(100);
   digitalWrite(PIN_LED, LOW);
@@ -67,9 +67,31 @@ void setup() {
 
 }
 
+void sendRf(long data) {
+  // LED on
+  digitalWrite(PIN_LED, HIGH);
+  // Log
+  Serial.print("Rf433Mhz: sent ");
+  Serial.println(data);
+  // LCD display
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Sending...");
+  lcd.setCursor(0, 1);
+  char buf[50];
+  sprintf(buf, "%lu", data);
+  lcd.print(buf);
+  // Rf433 send
+  rf433write.send(data, 32);
+  rf433write.send(data, 32);
+  // LED off
+  digitalWrite(PIN_LED, LOW);
+}
+
 int tilt_hits = 0;
 unsigned long tilt_time = 0;
 bool tilt_state = false;
+long last_value = 0;
 
 void loop() {
 
@@ -87,9 +109,14 @@ void loop() {
         tilt_time = millis();
         if (tilt_hits >= 5) {
           Serial.println("Tilt: hit");
-          lcd.clear();
-          lcd.setCursor(0, 0);
-          lcd.print("     Welcome");
+          if (last_value > 0) {
+            sendRf(last_value);
+          }
+          else {
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("  Listening...");
+          }
         }
         tilt_hits = 0;
     }
@@ -110,6 +137,8 @@ void loop() {
         char buf[50];
         sprintf(buf, "%lu", value);
         Serial.println(buf);
+        // Save value
+        last_value = value;
         // LCD display
         lcd.clear();
         char buf2[50];
@@ -129,24 +158,7 @@ void loop() {
       long data = String(Serial.readString()).toInt();
       if (data > 0)
       {
-        // LED on
-        digitalWrite(PIN_LED, HIGH);
-        // Log
-        Serial.print("Rf433Mhz: sent ");
-        Serial.println(data);
-        // LCD display
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Sending...");
-        lcd.setCursor(0, 1);
-        char buf[50];
-        sprintf(buf, "%lu", data);
-        lcd.print(buf);
-        // Rf433 send
-        rf433write.send(data, 32);
-        rf433write.send(data, 32);
-        // LED off
-        digitalWrite(PIN_LED, LOW);
+        sendRf(data);
       }
     }
 }
