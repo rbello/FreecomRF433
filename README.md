@@ -14,5 +14,4 @@ All the components are assembled:
 
 ### Case conception
 
-![Casing2D](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing2D_top.png)
-![Casing3D](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing3D.png)
+![Casing](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Hardware/Casing.png)
