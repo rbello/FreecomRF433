@@ -17,7 +17,7 @@
 #define PIN_LCD_D5 7          // Pin for LCD display
 #define PIN_LCD_D6 6          // Pin for LCD display
 #define PIN_LCD_D7 5          // Pin for LCD display
-#define PIN_TILT 4           // Pin for tilt switch
+#define PIN_TILT 4            // Pin for tilt switch
 #define PIN_LED  3            // Pin for external LED
 
 // LCD display
