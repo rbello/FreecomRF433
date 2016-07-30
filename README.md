@@ -10,7 +10,7 @@ Using a 433Mhz WL RF Arduino/ARM/MCU ASK (B00G23NW6S) module.
 
 All the components are assembled:
 
-![InternalElectronicPhoto](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Photos/image1.JPG)
+![InternalElectronicPhoto](https://raw.githubusercontent.com/rbello/FreecomRF433/master/Photos/image0.JPG)
 
 ### Case conception
 

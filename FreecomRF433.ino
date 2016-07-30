@@ -2,7 +2,7 @@
 // Name        : FreecomRF43.ino
 // Author      : R. BELLO <https://github.com/rbello>
 // Version     : 1.0
-// Copyright   : Creative Commons (by-nd)
+// Copyright   : Creative Commons (by)
 // Description : A small physical tool that displays the radio messages sent by home automation components using RF 433Mhz.
 //============================================================================
 
