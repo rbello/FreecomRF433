@@ -95,6 +95,7 @@ bool tilt_state = false;
 long last_value = 0;
 unsigned int last_protocol = 0;
 unsigned long last_update = 0;
+bool last_changed = false;
 
 void loop() {
 
@@ -113,6 +114,7 @@ void loop() {
         if (tilt_hits >= 3) {
           //Serial.println("Tilt: hit");
           last_value = 0;
+          last_changed = false;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("  Listening...");
@@ -140,6 +142,7 @@ void loop() {
         last_value = value;
         last_protocol = rf433read.getReceivedProtocol();
         last_update = millis();
+        last_changed = true;
         // LED off
         digitalWrite(PIN_LED, LOW);
       }
@@ -156,13 +159,17 @@ void loop() {
           last_value = 0;
         }
         else {
-          //lcd.clear();
+          if (last_changed) {
+            //Serial.println("Changed");
+            lcd.clear();
+            last_changed = false;
+          }
           lcd.setCursor(0, 0);
-          char buf2[16];
-          sprintf(buf2, "Rcvd: P=%d T=%d ", last_protocol, t);
+          char buf2[50];
+          sprintf(buf2, "Rcvd: P=%d T=%d", last_protocol, t);
           lcd.print(buf2);
           lcd.setCursor(0, 1);
-          char buf[16];
+          char buf[50];
           sprintf(buf, "%lu", last_value);
           lcd.print(buf);
         }
