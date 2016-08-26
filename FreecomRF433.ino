@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : FreecomRF43.ino
 // Author      : R. BELLO <https://github.com/rbello>
-// Version     : 1.0
+// Version     : 1.1
 // Copyright   : Creative Commons (by)
 // Description : A small physical tool that displays the radio messages sent by home automation components using RF 433Mhz.
 //============================================================================
@@ -91,7 +91,10 @@ void sendRf(long data) {
 int tilt_hits = 0;
 unsigned long tilt_time = 0;
 bool tilt_state = false;
+
 long last_value = 0;
+unsigned int last_protocol = 0;
+unsigned long last_update = 0;
 
 void loop() {
 
@@ -105,18 +108,14 @@ void loop() {
     else {
       tilt_state = false;
     }
-    if (millis() - tilt_time > 500) {
+    if (millis() - tilt_time > 400) {
         tilt_time = millis();
-        if (tilt_hits >= 5) {
-          Serial.println("Tilt: hit");
-          if (last_value > 0) {
-            sendRf(last_value);
-          }
-          else {
-            lcd.clear();
-            lcd.setCursor(0, 0);
-            lcd.print("  Listening...");
-          }
+        if (tilt_hits >= 3) {
+          //Serial.println("Tilt: hit");
+          last_value = 0;
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("  Listening...");
         }
         tilt_hits = 0;
     }
@@ -139,17 +138,34 @@ void loop() {
         Serial.println(buf);
         // Save value
         last_value = value;
-        // LCD display
-        lcd.clear();
-        char buf2[50];
-        sprintf(buf2, "Rcvd: P=%d L=%d", rf433read.getReceivedProtocol(), rf433read.getReceivedBitlength());
-        lcd.print(buf2);
-        lcd.setCursor(0, 1);
-        lcd.print(buf);
+        last_protocol = rf433read.getReceivedProtocol();
+        last_update = millis();
         // LED off
         digitalWrite(PIN_LED, LOW);
       }
       rf433read.resetAvailable();
+    }
+
+    // Display value
+    if (last_value > 0) {
+        unsigned long t = (millis() - last_update) / 1000;
+        if (t > 999) {
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("  Listening...");
+          last_value = 0;
+        }
+        else {
+          //lcd.clear();
+          lcd.setCursor(0, 0);
+          char buf2[16];
+          sprintf(buf2, "Rcvd: P=%d T=%d ", last_protocol, t);
+          lcd.print(buf2);
+          lcd.setCursor(0, 1);
+          char buf[16];
+          sprintf(buf, "%lu", last_value);
+          lcd.print(buf);
+        }
     }
 
     // Handle inputs from serial
